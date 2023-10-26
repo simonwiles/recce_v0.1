@@ -2,9 +2,15 @@ body {
   font-family: sans-serif;
 }
 
-label {
-  display: block;
+#controls {
+  display: flex;
+  gap: 2rem;
   margin-bottom: 2rem;
+}
+
+label {
+  display: flex;
+  gap: 1rem;
 }
 
 #image {

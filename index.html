@@ -19,16 +19,24 @@
     <h1>Recce v0.1</h1>
   </header>
   <main>
-    <label>
-      Search:
-      <input type="text" id="search" value=""></input>
-    </label>
+    <section id="controls">
+      <label>
+        Search:
+        <input type="text" id="search" value=""></input>
+      </label>
 
-    <div id="image">
+      <label>
+        Min. Confidence:
+        <input type="range" id="confidence" value="0" min="0" max="1" step="0.01"></input>
+        <span id="confidence-label">0</span>
+      </label>
+    </section>
+
+    <section id="image">
       <img src="./1586 Aberdeen.jpg" alt="1586 Aberdeen">
       <svg id="svg" xmlns="http://www.w3.org/2000/svg" width="1000" height="750" viewBox="0 0 1000 750">
       </svg>
-    </div>
+    </section>
   </main>
   <script src="script.js" type="module"></script>
 </body>

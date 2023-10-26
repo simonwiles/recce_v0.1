@@ -1,6 +1,7 @@
 const image = document.getElementById("image");
 const svg = document.getElementById("svg");
 const searchInput = document.getElementById("search");
+const confidenceInput = document.getElementById("confidence");
 
 const scale = 4416 / 1000;
 const scale_coords = (vertices, scale) =>
@@ -8,7 +9,6 @@ const scale_coords = (vertices, scale) =>
 
 const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-searchInput.value = "";
 image.style.width = image.getBoundingClientRect().width + "px";
 image.style.height = image.getBoundingClientRect().height + "px";
 
@@ -24,6 +24,7 @@ const createFeaturePath = (feature) => {
   path.push("Z");
   featurePath.setAttribute("d", path.join(" "));
   featurePath.setAttribute("data-text", feature.properties.text);
+  featurePath.setAttribute("data-score", feature.properties.score);
   featurePath.setAttribute(
     "data-tippy-content",
     `text: ${feature.properties.text}<br>score: ${feature.properties.score}`,
@@ -35,16 +36,44 @@ const features = await fetch("./1586 Aberdeen.geojson")
   .then((response) => response.json())
   .then((data) => data.features);
 
-searchInput.addEventListener("input", () => {
+const markFeatures = () => {
   document
     .querySelectorAll("path.active")
     .forEach((path) => path.classList.remove("active"));
-  if (!searchInput.value) return;
-  const re = new RegExp(escapeRegExp(searchInput.value), "i");
-  [...document.querySelectorAll("path")]
-    .filter((el) => re.test(el.dataset.text))
-    .forEach((el) => el.classList.add("active"));
-});
+
+  const query = searchInput.value
+    ? new RegExp(escapeRegExp(searchInput.value), "i")
+    : false;
+
+  const confidence = confidenceInput.valueAsNumber;
+
+  if (!query && !confidence) return;
+
+  let markedFeatures = [...document.querySelectorAll("path")];
+  if (query) {
+    markedFeatures = markedFeatures.filter((el) => query.test(el.dataset.text));
+  }
+
+  if (confidence) {
+    markedFeatures = markedFeatures.filter(
+      (el) => el.dataset.score >= confidence,
+    );
+  }
+
+  markedFeatures.forEach((el) => el.classList.add("active"));
+};
+
+searchInput.value = "";
+searchInput.addEventListener("input", markFeatures);
+
+confidenceInput.value = 0;
+confidenceInput.addEventListener(
+  "input",
+  () =>
+    (document.getElementById("confidence-label").textContent =
+      confidenceInput.value),
+);
+confidenceInput.addEventListener("input", markFeatures);
 
 features.forEach((feature) => svg.appendChild(createFeaturePath(feature)));
 tippy("path", { allowHTML: true });
