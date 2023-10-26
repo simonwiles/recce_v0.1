@@ -1,5 +1,6 @@
 const image = document.getElementById("image");
 const svg = document.getElementById("svg");
+const featuresTable = document.getElementById("features-table");
 const searchInput = document.getElementById("search");
 const confidenceInput = document.getElementById("confidence");
 
@@ -30,6 +31,17 @@ const createFeaturePath = (feature) => {
     `text: ${feature.properties.text}<br>score: ${feature.properties.score}`,
   );
   return featurePath;
+};
+
+const createFeatureTableRow = (feature) => {
+  const featureRow = document.createElement("tr");
+  const featureText = document.createElement("td");
+  const featureScore = document.createElement("td");
+  featureText.textContent = feature.properties.text;
+  featureScore.textContent = feature.properties.score;
+  featureRow.appendChild(featureText);
+  featureRow.appendChild(featureScore);
+  return featureRow;
 };
 
 const features = await fetch("./1586 Aberdeen.geojson")
@@ -67,13 +79,18 @@ searchInput.value = "";
 searchInput.addEventListener("input", markFeatures);
 
 confidenceInput.value = 0;
+confidenceInput.addEventListener("input", markFeatures);
 confidenceInput.addEventListener(
   "input",
   () =>
     (document.getElementById("confidence-label").textContent =
       confidenceInput.value),
 );
-confidenceInput.addEventListener("input", markFeatures);
 
-features.forEach((feature) => svg.appendChild(createFeaturePath(feature)));
+features.forEach((feature) => {
+  svg.appendChild(createFeaturePath(feature));
+  featuresTable
+    .querySelector("tbody")
+    .appendChild(createFeatureTableRow(feature));
+});
 tippy("path", { allowHTML: true });
