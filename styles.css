@@ -1,0 +1,41 @@
+body {
+  font-family: sans-serif;
+}
+
+label {
+  display: block;
+  margin-bottom: 2rem;
+}
+
+#image {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  max-width: 100%;
+  position: relative;
+}
+
+img {
+  width: inherit;
+}
+
+svg {
+  height: 100%;
+  position: absolute;
+  width: inherit;
+}
+
+svg path {
+  fill: transparent;
+  stroke: red;
+}
+
+svg path.active {
+  opacity: 0.6;
+  stroke: lime;
+}
+
+svg path:hover {
+  opacity: 0.2;
+  stroke: lime;
+}
