@@ -22,7 +22,7 @@ document.documentElement.style.setProperty(
 // image.style.width =;
 // image.style.height = image.getBoundingClientRect().height + "px";
 
-const createFeaturePath = (feature) => {
+const createFeaturePath = (feature, i) => {
   const featurePath = document.createElementNS(
     "http://www.w3.org/2000/svg",
     "path",
@@ -33,6 +33,7 @@ const createFeaturePath = (feature) => {
   vertices.slice(1).forEach(([x, y]) => path.push(`L ${x} ${y}`));
   path.push("Z");
   featurePath.setAttribute("d", path.join(" "));
+  featurePath.setAttribute("data-idx", i);
   featurePath.setAttribute("data-text", feature.properties.text);
   featurePath.setAttribute("data-score", feature.properties.score);
   featurePath.setAttribute(
@@ -42,7 +43,7 @@ const createFeaturePath = (feature) => {
   return featurePath;
 };
 
-const createFeatureTableRow = (feature) => {
+const createFeatureTableRow = (feature, i) => {
   const featureRow = document.createElement("tr");
   const featureText = document.createElement("td");
   const featureScore = document.createElement("td");
@@ -50,6 +51,12 @@ const createFeatureTableRow = (feature) => {
   featureScore.textContent = feature.properties.score;
   featureRow.appendChild(featureText);
   featureRow.appendChild(featureScore);
+  featureRow.addEventListener("mouseover", () =>
+    document.querySelector(`path[data-idx="${i}"]`).classList.add("active"),
+  );
+  featureRow.addEventListener("mouseout", () =>
+    document.querySelector(`path[data-idx="${i}"]`).classList.remove("active"),
+  );
   return featureRow;
 };
 
@@ -100,10 +107,10 @@ showFeaturesTableButton.addEventListener("click", () =>
   featuresTable.parentElement.parentElement.classList.toggle("show-table"),
 );
 
-features.forEach((feature) => {
-  svg.appendChild(createFeaturePath(feature));
+features.forEach((feature, i) => {
+  svg.appendChild(createFeaturePath(feature, i));
   featuresTable
     .querySelector("tbody")
-    .appendChild(createFeatureTableRow(feature));
+    .appendChild(createFeatureTableRow(feature, i));
 });
 tippy("path", { allowHTML: true });
