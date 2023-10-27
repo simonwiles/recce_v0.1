@@ -1,3 +1,7 @@
+:root {
+  --features-table-width: 350px;
+}
+
 body {
   font-family: sans-serif;
 }
@@ -18,22 +22,57 @@ label {
   gap: 1rem;
 }
 
+#output {
+  display: flex;
+  overflow: hidden;
+}
+
+#output > div {
+  width: 0;
+  transition: width 0.2s ease;
+  overflow-y: auto;
+  height: 100%;
+}
+
+#output.show-table > div {
+  width: var(--features-table-width);
+}
+
 #image {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
   max-width: 100%;
   position: relative;
+  width: var(--image-full-width);
+  transition: width 0.2s ease;
+}
+
+#output.show-table #image {
+  width: calc(var(--image-full-width) - var(--features-table-width));
 }
 
 img {
   width: inherit;
 }
 
+#output,
 svg {
-  height: 100%;
+  height: calc(var(--image-full-width) * var(--image-aspect-ratio));
+}
+
+svg {
   position: absolute;
+  transition: height 0.2s ease;
   width: inherit;
+}
+
+#output.show-table,
+#output.show-table svg {
+  height: calc(
+    (var(--image-full-width) - var(--features-table-width)) *
+      var(--image-aspect-ratio)
+  );
 }
 
 svg path {

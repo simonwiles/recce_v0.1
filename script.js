@@ -3,6 +3,7 @@ const svg = document.getElementById("svg");
 const featuresTable = document.getElementById("features-table");
 const searchInput = document.getElementById("search");
 const confidenceInput = document.getElementById("confidence");
+const showFeaturesTableButton = document.getElementById("show-features-table");
 
 const scale = 4416 / 1000;
 const scale_coords = (vertices, scale) =>
@@ -10,8 +11,16 @@ const scale_coords = (vertices, scale) =>
 
 const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-image.style.width = image.getBoundingClientRect().width + "px";
-image.style.height = image.getBoundingClientRect().height + "px";
+document.documentElement.style.setProperty(
+  "--image-full-width",
+  image.getBoundingClientRect().width + "px",
+);
+document.documentElement.style.setProperty(
+  "--image-aspect-ratio",
+  image.getBoundingClientRect().height / image.getBoundingClientRect().width,
+);
+// image.style.width =;
+// image.style.height = image.getBoundingClientRect().height + "px";
 
 const createFeaturePath = (feature) => {
   const featurePath = document.createElementNS(
@@ -85,6 +94,10 @@ confidenceInput.addEventListener(
   () =>
     (document.getElementById("confidence-label").textContent =
       confidenceInput.value),
+);
+
+showFeaturesTableButton.addEventListener("click", () =>
+  featuresTable.parentElement.parentElement.classList.toggle("show-table"),
 );
 
 features.forEach((feature) => {

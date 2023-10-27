@@ -29,25 +29,26 @@
         <input type="range" id="confidence" value="0" min="0" max="1" step="0.01"></input>
         <span id="confidence-label">0</span>
       </label>
+      <button id="show-features-table">Show/Hide Features Table</button>
     </section>
 
-    <details>
-      <summary>All Labels</summary>
-      <table id="features-table" class="sortable">
-        <thead>
-          <tr>
-            <th>Text</th>
-            <th>Confidence</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </details>
-
-    <section id="image">
-      <img src="./1586 Aberdeen.jpg" alt="1586 Aberdeen">
-      <svg id="svg" xmlns="http://www.w3.org/2000/svg" width="1000" height="750" viewBox="0 0 1000 750">
-      </svg>
+    <section id="output">
+      <div>
+        <table id="features-table" class="sortable">
+          <thead>
+            <tr>
+              <th>Text</th>
+              <th>Confidence</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <section id="image">
+        <img src="./1586 Aberdeen.jpg" alt="1586 Aberdeen">
+        <svg id="svg" xmlns="http://www.w3.org/2000/svg" width="1000" height="750" viewBox="0 0 1000 750">
+        </svg>
+      </section>
     </section>
 
   </main>
