@@ -77,17 +77,18 @@ svg {
 
 svg path {
   fill: transparent;
-  stroke: red;
+  stroke: #44f8;
 }
 
-svg path.active {
+svg path.marked {
   opacity: 0.6;
   stroke: lime;
 }
 
+svg path.active,
 svg path:hover {
-  opacity: 0.2;
-  stroke: lime;
+  opacity: 1;
+  stroke: hotpink;
 }
 
 table {

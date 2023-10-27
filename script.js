@@ -66,8 +66,8 @@ const features = await fetch("./1586 Aberdeen.geojson")
 
 const markFeatures = () => {
   document
-    .querySelectorAll("path.active")
-    .forEach((path) => path.classList.remove("active"));
+    .querySelectorAll("path.marked")
+    .forEach((path) => path.classList.remove("marked"));
 
   const query = searchInput.value
     ? new RegExp(escapeRegExp(searchInput.value), "i")
@@ -88,7 +88,7 @@ const markFeatures = () => {
     );
   }
 
-  markedFeatures.forEach((el) => el.classList.add("active"));
+  markedFeatures.forEach((el) => el.classList.add("marked"));
 };
 
 searchInput.value = "";
